@@ -1,4 +1,5 @@
 from flask_restful import Api, Resource, reqparse
+from summarizer import Summarizer
 
 class ApiHandler(Resource):
   def get(self):
@@ -8,28 +9,17 @@ class ApiHandler(Resource):
       }
 
   def post(self):
-    print(self)
+    print("Request made")
     parser = reqparse.RequestParser()
-    parser.add_argument('type', type=str)
-    parser.add_argument('message', type=str)
-
+    parser.add_argument('text', type = str, required = True,
+    help = 'No task title provided', location = 'json')
     args = parser.parse_args()
 
     print(args)
-    # note, the post req from frontend needs to match the strings here (e.g. 'type and 'message')
-
-    request_type = args['type']
-    request_json = args['message']
-    # ret_status, ret_msg = ReturnData(request_type, request_json)
-    # currently just returning the req straight
-    ret_status = request_type
-    ret_msg = request_json
-
-    if ret_msg:
-      message = "Your Message Requested: {}".format(ret_msg)
-    else:
-      message = "No Msg"
-    
-    final_ret = {"status": "Success", "message": message}
-
+    request_text = args['text']
+    model = Summarizer()
+    result = model(request_text, num_sentences=1)
+    full = ''.join(result)
+    print(full)
+    final_ret = {"status": "Success", "message": full}
     return final_ret
