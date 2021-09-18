@@ -45,29 +45,40 @@ function App() {
       </header> */}
       <Header />
       <SimpleGrid columns={2} spacing={10}>
+      <Text fontSize="4xl">Input Text</Text>
+      <Text fontSize="4xl">Output Summary</Text>
       <Textarea
         size="lg"
-        placeholder="Here is a sample placeholder"
+        placeholder="Text to be summarized goes here."
         onChange = { e => {
           setText(e.target.value)
         }}
       />
-        
       <header className="App-header">
         <div>{getMessage.status === 200 ? 
-          <Text fontSize="3xl">{getMessage.data.message}</Text>
+          <Text fontSize="lg">{getMessage.data.message}</Text>
           :
           <h3>No submission made</h3>}</div>
       </header>
       <Button colorScheme="teal" size="lg" onClick={e => {
         e.preventDefault();
         console.log({text});
-        axios.post('http://localhost:5000/flask/hello', {text }).then(response => {
+        axios.post('http://localhost:5000/flask/summary', {text }).then(response => {
           console.log(response)
           setGetMessage(response)
+          setSummaryText(response.data.message)
         })
         }}>
-        Button
+        Generate Summary
+      </Button>
+      <Button colorScheme="teal" size="lg" onClick={e => {
+        e.preventDefault();
+        console.log({text});
+        axios.post('http://localhost:5000/flask/flashcards', {summaryText }).then(response => {
+          console.log(response)
+        })
+        }}>
+        Generate Flashcards 
       </Button>
       </SimpleGrid>
       
