@@ -67,8 +67,11 @@ class FlashcardMaker(Resource):
     responses = []
     for sentence in sentences:
         print(sentence)
-        flashcards = nlp(sentence)
-        flashcards = [dict(t) for t in {tuple(d.items()) for d in flashcards}]
-        responses.append(flashcards)
-        print(flashcards)
+        try:
+          flashcards = nlp(sentence)
+          flashcards = [dict(t) for t in {tuple(d.items()) for d in flashcards}]
+          responses.append(flashcards)
+          print(flashcards)
+        except:
+          print("Unable to make a flashcard out of that sentence")
     return {"status": "Success", "messages": responses}
