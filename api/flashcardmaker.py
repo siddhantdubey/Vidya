@@ -1,6 +1,8 @@
 import requests
 import re
 from flask_restful import Api, Resource, reqparse
+from question_generation.pipelines import pipeline
+
 
 alphabets= "([A-Za-z])"
 prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
@@ -37,7 +39,7 @@ def split_into_sentences(text):
     return sentences
 
 
-
+nlp = pipeline("question-generation")
 class FlashcardMaker(Resource):
   def get(self):
     return {
@@ -59,34 +61,11 @@ class FlashcardMaker(Resource):
     print(request_text)
     sentences = split_into_sentences(request_text)
 
+    responses = []
     for sentence in sentences:
         print(sentence)
-        context = f"""
-            Highlight: The arms and legs are the extremities.
-            Flashcard: What are the extremeities?
-            ###
-            Highlight: Christopher Columbus, sailed from Spain in 1492 and reached the Americas.
-            Flashcard: Who is Christopher Columbus?
-            ###
-            Highlight: He attacked the castle because he thought it would net him riches.
-            Flashcard: Why did he attack the castle?
-            ###
-            Highlight: The capitol riots took place on January 26th, 2021.
-            Flashcard: When did the capitol riots take place?
-            ###
-            Highlight: World War II started in 1939.
-            Flashcard: When did World War II start?
-            ### 
-            Highlight: They ended up losing to the better team.
-            Flashcard: What happened to them?
-            ###
-            Highlight: {sentence}
-        """
-        payload = {
-            "context": context,
-            "token_max_length": 70,
-            "temperature": 0.7,
-            "top_p": 0.9,
-        }
-        response = requests.post("http://api.vicgalle.net:5000/generate", params=payload).json()
-        print(response['text'])
+        flashcards = nlp(sentence)
+        flashcards = [dict(t) for t in {tuple(d.items()) for d in flashcards}]
+        responses.append(flashcards)
+        print(flashcards)
+    return {"status": "Success", "messages": responses}

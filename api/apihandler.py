@@ -18,7 +18,7 @@ class ApiHandler(Resource):
     print(args)
     request_text = args['text']
     model = Summarizer()
-    result = model(request_text, num_sentences=1)
+    result = model(request_text, ratio=0.3)
     full = ''.join(result)
     print(full)
     final_ret = {"status": "Success", "message": full}

@@ -9,6 +9,8 @@ import {
     Icon,
     IconProps,
   } from '@chakra-ui/react';
+import { List, ListItem, ListIcon, OrderedList, UnorderedList } from "@chakra-ui/react"
+
   
   const Header = () => {
     return (
@@ -29,20 +31,15 @@ import {
           </Heading>
           <Text color={'gray.500'} maxW={'3xl'}>
             Automatically make summaries and flashcards from YouTube videos, Zoom recordings, articles, and more.
+            To export your flashcards and use them in Anki do the following:
           </Text>
-          {/* <Stack spacing={6} direction={'row'}>
-            <Button
-              rounded={'full'}
-              px={6}
-              colorScheme={'orange'}
-              bg={'orange.400'}
-              _hover={{ bg: 'orange.500' }}>
-              Get started
-            </Button>
-            <Button rounded={'full'} px={6}>
-              Learn more
-            </Button>
-          </Stack> */}
+          <OrderedList color={'gray.500'} textAlign={'left'}>
+            <ListItem><Text color={'gray.500'} maxW={'3xl'}>Paste in your text into the input text section and hit Generate Summary.</Text></ListItem>
+            <ListItem><Text color={'gray.500'} maxW={'3xl'}>Once the summary shows up in the right column, hit the generate flashcards button.</Text></ListItem>
+            <ListItem><Text color={'gray.500'} maxW={'3xl'}>Once the flashcards are done generating, scroll down and hit export flashcards.</Text></ListItem>
+            <ListItem><Text color={'gray.500'} maxW={'3xl'}>Open Anki, and import the text file into your deck.</Text></ListItem>
+            <ListItem><Text color={'gray.500'} maxW={'3xl'}>Enjoy studying!</Text></ListItem>
+          </OrderedList>
         </Stack>
       </Container>
     );
