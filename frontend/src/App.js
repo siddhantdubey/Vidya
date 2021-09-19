@@ -23,12 +23,6 @@ function App() {
   return (
     <ChakraProvider>
     <div className="App">
-      {/* <header className="App-header">
-        <div>{getMessage.status === 200 ? 
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>LOADING</h3>}</div>
-      </header> */}
       <Header />
       <SimpleGrid columns={2} spacing={10}>
         <Text fontSize="4xl">Input Text</Text>
@@ -49,7 +43,7 @@ function App() {
         <Button colorScheme="teal" size="lg" onClick={e => {
           e.preventDefault();
           console.log({text});
-          axios.post('http://localhost:5000/flask/summary', {text }).then(response => {
+          axios.post('https://vidyastudy.herokuapp.com/flask/summary', {text }).then(response => {
             console.log(response)
             setGetMessage(response)
             setSummaryText(response.data.message)
@@ -59,7 +53,7 @@ function App() {
         </Button>
         <Button colorScheme="teal" size="lg" onClick={e => {
           e.preventDefault();
-          axios.post('http://localhost:5000/flask/flashcards', {summaryText }).then(r => {
+          axios.post('https://vidyastudy.herokuapp.com/flask/flashcards', {summaryText }).then(r => {
             setFlashcards(r.data.messages)
             console.log(flashcards[0][0])
             flashcards.forEach(item => console.log(item[0]));
