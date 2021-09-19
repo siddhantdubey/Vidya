@@ -13,6 +13,9 @@ websites = "[.](com|net|org|io|gov)"
 
 def split_into_sentences(text):
     #shout out to the regexers on Stack Overflow LOLLLL
+    """
+    Regex to split a pargraph into a list of sentences. No NLTK needed!
+    """
     text = " " + text + "  "
     text = text.replace("\n"," ")
     text = re.sub(prefixes,"\\1<prd>",text)
